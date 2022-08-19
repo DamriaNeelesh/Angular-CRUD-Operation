@@ -1,0 +1,104 @@
+<button>Save</button>
+<button class="btn btn-success">Submit-1</button>
+<button class="btn btn-primary">Submit 2</button>
+<button class="btn btn-danger">Cancel</button>
+
+<i class="fa fa-edit 4x"></i>
+<i class="fa fa-trash-o 4x "></i>
+<i class="fa fa-edit 4x"></i>
+
+
+
+/*Jo side mai pop up notification aata hai na error ya sucess type ka uske liye toastr use krte hain*/
+  ngOnInit()
+  {
+    this._toastr.success("Saved Sucess","User Master");                      
+     this._toastr.info("Info Sucess","User Master");          /* Blue color mai show hoga*/
+     this._toastr.warning("Warning","User Master");      /*Yellow Color mai Show hoga*/
+     this._toastr.error("Error","User Master");          /* Red Color ka */
+
+     swal.fire("Hello User");
+     swal.fire('Oops!','Something went Wrong','error');
+     swal.fire('Wow!','Well Done!!','success');
+
+     swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: 'Your work has been saved',
+  showConfirmButton: false,
+  timer: 1500
+})
+A custom positioned dialog
+
+    }
+-----------------------------------------------------------------------------------------------------
+In Memory WEB Api:
+
+data.service.ts
+
+import { Injectable } from '@angular/core';
+import { InMemoryDbService } from 'angular-in-memory-web-api';
+import { User } from './user.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InMemoryDbService implement InMemoryDbService {
+
+  constructor() { } 
+
+   createDB(){
+    let users = User[] = 
+    [
+      {id:1,title:'Mr',firstName:'Neelesh',lastName:'Meena',dob:'18-12-1999',email:'damrianeelesh@gmail.com',password:'123456',acceptTerms:true},
+      {id:2,title:'Miss',firstName:'Shalini',lastName:'Meena',dob:'14-08-2000',email:'meenahshalu57@gmail.com',password:'123456',acceptTerms:true},
+
+    ]
+    return { user };
+   }
+
+}
+
+user.interface.ts
+
+export interface User{
+  id:number,
+  title:string,
+  firstName:string,
+  lastName:string,
+  dob:string,
+  email:string,
+  password:string,
+  acceptTerms:boolean
+} 
+
+data.service.spec.ts
+
+import { TestBed } from '@angular/core/testing';
+
+import { DataService } from './data.service';
+
+describe('DataService', () => {
+  let service: DataService;
+
+  beforeEach(() => { 
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(DataService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+export class DataService{
+
+}
+
+
+
+
+
+
+
+    
