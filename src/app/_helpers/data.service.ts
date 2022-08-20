@@ -12,22 +12,24 @@ export class DataService implements InMemoryDbService {
       User: [
         {
           id: 1,
-          name: 'Seaman Cap',
-          description: 'Lorem ipsum . Voluptatem excepturi magnam nostrum dolore recusandae',
-          price: '$40'
+          title:'Mr',
+          firstName:'Neelesh',
+          lastName:'Meena',
+          dob:'18-12-1999',
+          email:'damrianeelesh@gmail.com',
+          password:'shaaneelu',
+          acceptTerms:true,          
         },
         {
           id: 2,
-          name: 'T-shirt',
-          description: 'amet consectetur adipisicing elit.Lorem ipsum dolor sit ',
-          price: '$80'
+          title:'Miss',
+          firstName:'Shalini',
+          lastName:'Meena',
+          dob:'14-08-2000',
+          email:'meenashalu57@gmail.com',
+          password:'shaaneelu',
+          acceptTerms:true,   
         },
-        {
-          id: 3,
-          name: 'Back Pack',
-          description: 'Voluptatem excepturi harum rerum aliquam magnam nostrum dolore recusandae',
-          price: '$30'
-        }
       ]
     };
   }
