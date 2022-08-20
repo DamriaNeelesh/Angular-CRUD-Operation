@@ -5,11 +5,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ToastrModule } from 'ngx-toastr';
-import { DataService } from './data.service';
+
 import { ReactiveFormsModule } from '@angular/forms'; /*For creating a registration form */
 import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
+import { DataService } from './_helpers/data.service';
 
 
 @NgModule({
