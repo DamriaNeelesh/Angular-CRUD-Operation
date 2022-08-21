@@ -6,6 +6,8 @@ import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms'; 
+import { UserService } from './_helpers/user.service';
+import { User } from './_helpers/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,10 @@ export class AppComponent implements OnInit {
   title = 'registraton-app';
 /*  registrationForm :FormGroup = new FormGroup({});*/ 
  registrationForm :FormGroup;  /*Yeh use krne ke liye hamne strict mode false kiya hai inside tsconfig.json*/ 
-constructor(private _toastr:ToastrService , private _fb:FormBuilder){
+
+ users: User[] = [];
+
+constructor(private _toastr:ToastrService , private _fb:FormBuilder,private _userService:UserService){
    
   }
 
@@ -49,7 +54,20 @@ constructor(private _toastr:ToastrService , private _fb:FormBuilder){
   onCancel(){
     this.registrationForm.reset();
   }
+// getUsers ko yahan call krenge userService ke through
+  getAllUsers(){
+    // api ko hit krke jo data aaega userService se getUsers mai usko ham subscribe krke nikaal lenge
+    // Yeh jo data hai isko mene subscribe kr liye 
+    // As we have to unserstand ki user ka type array hai aur jo response res hai iska type hai object
+    // And we know ki jab ham subscribe krte hain toh hame object ki form mai data milta hai 
+    // To iss res ko ham convert kr denge User type ke array mai []
+   this._userService.getUsers().subscribe((res: User[])=>{
+          this.users = res;
+          debugger;
+          console.log(res);
+   });
+  }
 
 }
 
-
+ 
