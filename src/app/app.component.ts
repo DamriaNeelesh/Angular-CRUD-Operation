@@ -72,10 +72,21 @@ constructor(
     // To iss res ko ham convert kr denge User type ke array mai []
    this._userService.getUsers().subscribe((res: User[])=>{
           this.users = res;
-          console.log(res);
+          // console.log(res); // We will get the user araay data in console
    });
   }
 
+  Edit(userId:number){
+
+  }
+// Uss delete krne wali service ko yahan subscribe kr denge
+  Delete(userId:number){
+    this._userService.deleteUser(userId).subscribe(res => {
+      this.getAllUsers(); // Delete krne ke baad ham table ko vapis bind kr denge
+      this._toastr.success("Deleted Success !!,User Registration"); // Use of sweet alert popup box 
+    })
+    console.log('Deleted');
+  }
 }
 
  

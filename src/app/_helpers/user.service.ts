@@ -14,4 +14,8 @@ export class UserService {
     // Aur isko ham app.component.ts mai jaake inject kr denge
     return this._httpService.get(this.API_BASE_PATH + "users"); // concat kr diya taaki ab localhost:4200/api/User pe data aa jaega sara
   }
+// delete ke liye service api bana diya hai
+  deleteUser(userId:number){
+    return this._httpService.delete(`${this.API_BASE_PATH} users/${userId}`)
+  }
 }

@@ -79,7 +79,7 @@
 	<div class="card-body ">
       <div class="form-row">
 		<div class="form-group col">
-           <table>
+           <table class="table table-bordered">
 			 <tr>
 				<th>Title&nbsp;</th>
 				<th>First Name&nbsp;</th>
@@ -88,12 +88,20 @@
 				<th>Email&nbsp;</th>
 				<th>Actions&nbsp;</th>
 			 </tr>
-			 <tr *ngFor = "let user of users">
+			 <!-- We will get the user data in the table format by calling the getAllUser()fxn inside ngOnInit() -->
+			 <tr *ngFor = "let user of users"> 
 				<td>{{user.title}}</td>
 				<td>{{user.firstName}}</td>
 				<td>{{user.lastName}}</td>
 				<td>{{user.dob}}</td>
 				<td>{{user.email}}</td>
+				<td>
+					<!--ab in edit wale icon pe edit delete function lagane ke liye hame id ka use krna padega -->
+					<i class="fa fa-edit" style="color:green;" (click)="Edit(user.id)"></i>
+					<i class="fa fa-trash" style="color:red;" (click)="Delete(user.id)"></i>
+
+				</td>
+
              </tr>
 		   </table>
 		</div>
