@@ -8,6 +8,7 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms'; 
 import { UserService } from './_helpers/user.service';
 import { User } from './_helpers/user.interface';
+import { DataService } from './_helpers/data.service';
 
 @Component({
   selector: 'app-root',
@@ -21,13 +22,17 @@ export class AppComponent implements OnInit {
 
  users: User[] = [];
 
-constructor(private _toastr:ToastrService , private _fb:FormBuilder,private _userService:UserService){
-   
-  }
+constructor(
+  private _toastr:ToastrService,
+  private _fb:FormBuilder,
+  private _userService:UserService,
+  private _dataService:DataService
+  ){}
 
-  ngOnInit()
+  ngOnInit() // jo sbse pehle load hoga 
   {
        this.setFormState();
+       this.getAllUsers(); // Sbse call krna hoga tbhi toh aage ka kaam hoga 
   }
 
   setFormState(){ /*Form Group ke andar form control Add krna hai*/
@@ -43,6 +48,10 @@ constructor(private _toastr:ToastrService , private _fb:FormBuilder,private _use
          confirmPassword:['',Validators.required],
          acceptTerms:[false,Validators.required],
     });
+   //  this.getAllUsers()  - We can also call just after this also
+    // if(this.users) {
+    //   this.registrationForm.patchValue(this.users)
+    // }
   }
 
   onSubmit(){
@@ -63,7 +72,6 @@ constructor(private _toastr:ToastrService , private _fb:FormBuilder,private _use
     // To iss res ko ham convert kr denge User type ke array mai []
    this._userService.getUsers().subscribe((res: User[])=>{
           this.users = res;
-          debugger;
           console.log(res);
    });
   }
