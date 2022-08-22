@@ -9,6 +9,7 @@ import { Validators } from '@angular/forms';
 import { UserService } from './_helpers/user.service';
 import { User } from './_helpers/user.interface';
 import { DataService } from './_helpers/data.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -77,16 +78,37 @@ constructor(
   }
 
   Edit(userId:number){
-
+     
   }
 // Uss delete krne wali service ko yahan subscribe kr denge
   Delete(userId:number){
-    this._userService.deleteUser(userId).subscribe(res => {
-      this.getAllUsers(); // Delete krne ke baad ham table ko vapis bind kr denge
-      this._toastr.success("Deleted Success !!,User Registration"); // Use of sweet alert popup box 
+    Swal.fire({
+      title: 'Are you sure you want to delete?',
+      text: "You won't be able to recover Deleted User's Data!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+        this._userService.deleteUser(userId).subscribe(res => {
+          this.getAllUsers(); // Delete krne ke baad ham table ko vapis bind kr denge
+          this._toastr.success('Deleted Successfully!!','User Registration'); // Sweet Alert Box
+        })
+      }
     })
-    console.log('Deleted');
+
+
+    
   }
+
 }
 
  

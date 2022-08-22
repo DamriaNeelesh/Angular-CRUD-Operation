@@ -16,6 +16,15 @@ export class UserService {
   }
 // delete ke liye service api bana diya hai
   deleteUser(userId:number){
-    return this._httpService.delete(`${this.API_BASE_PATH} users/${userId}`)
+    console.log(userId);
+    return this._httpService.delete(`${this.API_BASE_PATH}users/${userId}`)
+  }
+  // Note that ki yeh jo ham httpService mai API base path denge that should be in correct form no space and all
+  // Taaki wo har user ke data ko id se pata krega ex:
+  // 1. User -  Neelesh ko target krne ke liye api se => "http://localhost:4200/api/users/1" ;
+
+  updateUser(userId:number){
+    console.log(userId ,"nd Id Data Updated");
+    
   }
 }
