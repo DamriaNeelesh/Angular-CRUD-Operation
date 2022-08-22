@@ -98,10 +98,18 @@ constructor(
           'Your file has been deleted.',
           'success'
         )
+        
         this._userService.deleteUser(userId).subscribe(res => {
           this.getAllUsers(); // Delete krne ke baad ham table ko vapis bind kr denge
           this._toastr.success('Deleted Successfully!!','User Registration'); // Sweet Alert Box
         })
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel){
+        Swal.fire(
+          'Cancelled',
+          'Your Record is safe',
+          'error'  
+        )
       }
     })
 
