@@ -26,7 +26,8 @@ export class UserService {
    addUser(user: User){
     return this._httpService.post(`${this.API_BASE_PATH}users`,user)
    }
-
+   
+// Put mai hamein path aur Id bhi dena hota hai
    updateUser(user: User){
     return this._httpService.put(`${this.API_BASE_PATH}users/${user.id}`,user)
    }

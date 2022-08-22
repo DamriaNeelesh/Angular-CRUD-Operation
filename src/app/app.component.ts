@@ -10,6 +10,7 @@ import { UserService } from './_helpers/user.service';
 import { User } from './_helpers/user.interface';
 import { DataService } from './_helpers/data.service';
 import Swal from 'sweetalert2';
+import { DBOperation } from './_helpers/db-operation';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,12 @@ export class AppComponent implements OnInit {
  registrationForm :FormGroup;  /*Yeh use krne ke liye hamne strict mode false kiya hai inside tsconfig.json*/ 
 
  users: User[] = [];
+
+ submitted : boolean = false;
+
+ buttonText : string = "Submit";
+ // Yahi button save ki jagah chala jaega jb edit krke aaenge toh save aaega nhi toh submit
+dbops : DBOperation; 
 
 constructor(
   private _toastr:ToastrService,
@@ -37,7 +44,10 @@ constructor(
   }
 
   setFormState(){ /*Form Group ke andar form control Add krna hai*/
-    this.registrationForm = this._fb.group({
+   this.buttonText ="Submit";
+   this.dbops = DBOperation.create;
+
+     this.registrationForm = this._fb.group({
          id:[0],
          title:['',Validators.required], /*validator taaki uss required field ko compuolsory bana skein*/
          firstName:['',Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(10)])],
@@ -55,14 +65,38 @@ constructor(
     // }
   }
 
+
+//Yeh jo onSubmit() hai isi pr hamko update bhi krna hai aur save bhi 
   onSubmit(){
+    this.submitted = true;
+
      if(this.registrationForm.invalid){
       return;
      }
+  switch (this.dbops) {
+    case DBOperation.create:
+      this._userService.addUser(this.registrationForm.value).subscribe(res=> {
+       this._toastr.success("User Added !!","User Registration");
+       this.getAllUsers();
+       this.onCancel();
+      });
+      break;
+    case DBOperation.update:  
+    this._userService.updateUser(this.registrationForm.value).subscribe(res=> {
+      this._toastr.success("User Updated !!","User Registration");
+      this.getAllUsers();
+      this.onCancel(); // Isse submit hoke blank ho jaega
+     });
+      break;
   }
+}
 
+  
   onCancel(){
     this.registrationForm.reset();
+    this.buttonText ="Submit";
+    this.dbops = DBOperation.create;
+    this.submitted = false; // Matlab hamne submit nhi kiya hai toh wo cancel pe click krne se update wala button save mai convert ho jaega
   }
 // getUsers ko yahan call krenge userService ke through
   getAllUsers(){
@@ -78,7 +112,18 @@ constructor(
   }
 
   Edit(userId:number){
-     
+    // Isse yeh hoga ki edit pe click krne pe button ka naam update ho jaega
+
+     this.buttonText ="Update";
+     this.dbops = DBOperation.update;
+
+     let user = this.users.find((u: User)=>u.id === userId);
+     // Isse wo jagah dhund ke jahan data update krna hai wahan jake patch kr dega
+     // The PatchValue is used to update only a subset of the elements of the FormGroup or FormArray . 
+     // It will only update the matching objects and ignores the rest
+     this.registrationForm.patchValue(user);
+     // Agr registration form ke object mai 5 column hain aur edit update ke baad bhi 5 hain tbhi yeh patch work krega
+     // Patch krne se jo data ham edit krenge wo form mai show hoke edit hoga
   }
 // Uss delete krne wali service ko yahan subscribe kr denge
   Delete(userId:number){
