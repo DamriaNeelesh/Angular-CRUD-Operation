@@ -4,56 +4,107 @@
 		<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
 			<div class="row mb-3">
 				<div class="form-group col">
-					<label>Title</label>
-					<select class="form-control" formControlName="title">
+					<label>Title</label>                                               <!--Submitted wala true hone pe he check krega Validation--> 
+					<select class="form-control" formControlName="title" [ngClass]="{'is-invalid' : submitted && registrationForm.controls['title'].errors}">
 						<option value="Mr">Mr</option>
 						<option value="Mrs">Mrs</option>
 						<option value="Miss">Miss</option>
 						<option value="Ms">Ms</option>
 					</select>
+					<div *ngIf="submitted && registrationForm.controls['title'].errors" class="invalid-feedback">
+                        <div *ngIf="registrationForm.controls['title'].errors['required']">Title is Required!!</div>
+					</div>
 				</div>
 
-				<div class="form-group col-5">
+				<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
+				<div class="form-group col-5" formControlName="firstName">
 					<label>First Name</label>
-					<input type="text" class="form-control" formControlName="firstName">
+					<input type="text" class="form-control" formControlName="firstName" 
+					[ngClass]="{'is-invalid': submitted && registrationForm.controls['firstName'].errors}" >
+					<div *ngIf="submitted && registrationForm.controls['firstName']" class="invalid-feedback">
+						<div *ngIf="registrationForm.controls['firstName'].errors['required']">First Name is Required!!</div>
+						<div *ngIf="registrationForm.controls['firstName'].errors['minlength']">First Name should be atleast 3 char long!!</div>					
+						<div *ngIf="registrationForm.controls['firstName'].errors['maxlength']">First Name should be not more than 10 char long!!</div>					
+                    </div>
 				</div>
 
+							<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
 				<div class="form-group col-5">
 					<label>Last Name</label>
-					<input type="text" class="form-control" formControlName="lastName">
+					<input type="text" class="form-control" formControlName="lastName" [ngClass]="{'is-invalid': submitted && registrationForm.controls['lastName'].errors}">
+					<div *ngIf="submitted && registrationForm.controls['lastName']" class="invalid-feedback">
+						<div *ngIf="registrationForm.controls['lastName'].errors['required']">Last Name is Required!!</div>
+						<div *ngIf="registrationForm.controls['lastName'].errors['minlength']">Last Name should be atleast 3 char long!!</div>					
+						<div *ngIf="registrationForm.controls['lastName'].errors['maxlength']">Last Name should be not more than 10 char long!!</div>					
+                    </div>
+				   
 				</div>
 			</div>	
 
+						<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
             <div class="row mb-3">
 		        <div class="form-group col-5">
 			       <label>Date of Birth</label>
-			       <input type="date"  class="form-control" formControlName="dob">
+			       <input type="date"  class="form-control" formControlName="dob" [ngClass]="{'is-invalid': submitted && registrationForm.controls['dob'].errors}">
+				   <div *ngIf="submitted && registrationForm.controls['dob']" class="invalid-feedback">
+					<div *ngIf="registrationForm.controls['dob'].errors['required']">Date of Birth is Required!!</div>
+					<div *ngIf="registrationForm.controls['dob'].errors['pattern']">Date of Birth Must be a Valid in the Format- YYYY-MM-DD</div>					
+				</div>
                 </div>
+
+							<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
                 <div class="form-group col-5">
 					<label>Email</label>
-					<input type="text"  class="form-control" formControlName="email">
+					<input type="text"  class="form-control" formControlName="email" [ngClass]="{'is-invalid': submitted && registrationForm.controls['email'].errors}">
+					<div *ngIf="submitted && registrationForm.controls['email']" class="invalid-feedback">
+						<div *ngIf="registrationForm.controls['email'].errors['required']">Email is Required!!</div>
+						<div *ngIf="registrationForm.controls['email'].errors['email']">Enter a Valid Email Address</div>					
+                    </div>
                 </div>
 		    </div>
 
+			<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
 		    <div class="row mb-3">
 		        <div class="form-group col-5">
 			       <label>Password</label>
-			       <input type="password" class="form-control" formControlName="password">
+			       <input type="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': submitted && registrationForm.controls['password'].errors}">
+				   <div *ngIf="submitted && registrationForm.controls['password']" class="invalid-feedback">
+					<div *ngIf="registrationForm.controls['password'].errors['required']">Password Required!!</div>
+					<div *ngIf="registrationForm.controls['password'].errors['minlength']">Password must be atleast 6 char long!!</div>					
+				</div>
                 </div>
+
+							<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
                 <div class="form-group col-5">
 					<label>Confirm Password</label>
-					<input type="password"  class="form-control" formControlName="confirmPassword">
-                </div>
+					<input type="text"  class="form-control" formControlName="confirmPassword" 
+					[ngClass]="{'is-invalid': submitted && registrationForm.controls['confirmPassword'].errors}">
+
+					<div *ngIf="submitted && registrationForm.controls['password']" class="invalid-feedback">
+						<div *ngIf="registrationForm.controls['confirmPassword'].errors['required']">Confirm Password is Required!!</div>
+						<div *ngIf="registrationForm.controls['confirmPassword'].errors['mustMatch']">Password and Confirm Password must be Same!!</div>
+
+					</div>
+				</div>
 		    </div>
 
-
+			<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
             <div class="row mb-3">
 		        <div class="form-group form-check">
-			       <input type="checkbox"  class="form-check-input" id="acceptTerms" formControlName="acceptTerms">
-			       <label for = "acceptTerms" class="form-check-label">Accept Terms & Conditions</label>
-                </div>
-            </div>    
+			       <input type="checkbox"  class="form-check-input" id="acceptTerms" formControlName="acceptTerms"
+				   [ngClass]="{'is-invalid': submitted && registrationForm.controls['acceptTerms'].errors}">
 
+			       <label for = "acceptTerms" class="form-check-label">Accept Terms & Conditions</label>
+				   
+				   <div *ngIf="submitted && registrationForm.controls['acceptTerms']" class="invalid-feedback">
+					   <div *ngIf="registrationForm.controls['acceptTerms'].errors['required']">
+						   Accept Terms is Required!!
+					    </div>
+				   </div>
+			    </div>
+            </div>
+            
+			<!-- Jo jo hamne validator banae the password ke liye bs wo he .errors ke andar jaenge same for all  -->
             <div class="row mb-3">
             	<div class="form-group text-center">
             	<button type="submit" class="btn btn-success me-2">{{buttonText}}</button>

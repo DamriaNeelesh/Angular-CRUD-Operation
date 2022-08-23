@@ -11,6 +11,7 @@ import { User } from './_helpers/user.interface';
 import { DataService } from './_helpers/data.service';
 import Swal from 'sweetalert2';
 import { DBOperation } from './_helpers/db-operation';
+import { MustMatch} from './must-match.validator';
 
 @Component({
   selector: 'app-root',
@@ -47,23 +48,64 @@ constructor(
    this.buttonText ="Submit";
    this.dbops = DBOperation.create;
 
-     this.registrationForm = this._fb.group({
-         id:[0],
-         title:['',Validators.required], /*validator taaki uss required field ko compuolsory bana skein*/
-         firstName:['',Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(10)])],
-         /*yeh ek array hai [initial Value , validations]*/
-         lastName:['',Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(10)])],
-         email:['',Validators.compose([Validators.required,Validators.minLength(6)])],
-         dob: ['', [Validators.required, Validators.pattern(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)]],         
-         password:['',Validators.compose([Validators.required,Validators.minLength(6)])],
-         confirmPassword:['',Validators.required],
-         acceptTerms:[false,Validators.required],
-    });
-   //  this.getAllUsers()  - We can also call just after this also
-    // if(this.users) {
-    //   this.registrationForm.patchValue(this.users)
-    // }
+        this.registrationForm = this._fb.group({
+            id:[0],
+            title:['',Validators.required], /*validator taaki uss required field ko compuolsory bana skein*/
+            firstName:['',Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(10)])],
+    //      /*yeh ek array hai [initial Value , validations]*/
+            lastName:['',Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(10)])],
+            email:['',Validators.compose([Validators.required,Validators.minLength(6)])],
+            dob: ['', [Validators.required, Validators.pattern(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)]],         
+            password:['',Validators.compose([Validators.required,Validators.minLength(6)])],
+            confirmPassword:['',Validators.required],
+            acceptTerms:[false,Validators.requiredTrue],
+       },{
+         validators : MustMatch('password','confirmPassword'),
+       });
+       this.getAllUsers()  // We can also call just after this also
+       if(this.users) {
+        this.registrationForm.patchValue(this.users)
+       }
+
+
+// New way of grouping form as this previous will depreciated after -3 years
+
+
+// this.registrationForm = new FormGroup({
+//   id: new FormControl(0),
+//   title: new FormControl('',Validators.required), /*validator taaki uss required field ko compuolsory bana skein*/
+//   firstName: new FormControl('',Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(10)])),
+//   /*yeh ek array hai [initial Value , validations]*/
+//   lastName:new FormControl('',Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(10)])),
+//   email:new FormControl('',Validators.compose([Validators.required,Validators.minLength(6)])),
+//   dob: new FormControl('', [Validators.required, Validators.pattern(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)]),         
+//   password:new FormControl('',Validators.compose([Validators.required,Validators.minLength(6)])),
+//   confirmPassword:new FormControl('',Validators.required),
+//   acceptTerms:new FormControl(false,Validators.requiredTrue),
+// },{
+//   MustMatch('password','confirmPassword'),
+// });
+
+
+
+
+
+
   }
+
+
+
+
+
+
+
+
+
+
+  // ab Validation ke liye html mai baar yeh registartionForm .control ki jagah mai valid fxn use krunga 
+get valid(){
+  return this.registrationForm.controls;
+}
 
 
 //Yeh jo onSubmit() hai isi pr hamko update bhi krna hai aur save bhi 
@@ -124,7 +166,14 @@ constructor(
      this.registrationForm.patchValue(user);
      // Agr registration form ke object mai 5 column hain aur edit update ke baad bhi 5 hain tbhi yeh patch work krega
      // Patch krne se jo data ham edit krenge wo form mai show hoke edit hoga
-  }
+
+     this.registrationForm.get('password').setValue('');
+     // Matlab yeh ki edit ke time password hame dubara dalna padega isiliye usko blank kr diya
+     this.registrationForm.get('confirmPassword').setValue(''); 
+     // Matlab yeh ki edit ke time Confirmpassword hame dubara dalna padega isiliye usko blank kr diya
+     this.registrationForm.get('acceptTerms').setValue(''); 
+
+    }
 // Uss delete krne wali service ko yahan subscribe kr denge
   Delete(userId:number){
     Swal.fire({
@@ -161,6 +210,8 @@ constructor(
 
     
   }
+
+
 
 }
 
